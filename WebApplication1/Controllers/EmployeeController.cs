@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace WebApplication1.Controllers
 {
@@ -18,6 +20,7 @@ namespace WebApplication1.Controllers
 
 
         [HttpGet(Name = "GetEmployee")]
+        
         public IEnumerable<Employee> Get()
         {
             _logger.LogInformation("information");
@@ -27,6 +30,7 @@ namespace WebApplication1.Controllers
                 Name = "a"
             })
             .ToArray();
+
             return data;
         }
 
@@ -39,5 +43,15 @@ namespace WebApplication1.Controllers
                 Name = ((char) id).ToString()
             };
         }
+
+        [HttpPost]
+        public Employee Post(Employee employee)
+        {
+            string fullPath = @"C:\repo\testWrite.json";
+            
+            System.IO.File.AppendAllText(fullPath, JsonConvert.SerializeObject(employee));
+            return employee;
+        }
     }
 }
+

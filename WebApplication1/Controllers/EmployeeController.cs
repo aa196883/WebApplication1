@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Interface;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -11,10 +12,12 @@ namespace WebApplication1.Controllers
     public class EmployeeController : Controller
     {
         private readonly ILogger<EmployeeController> _logger;
+        private readonly IContext _context;
 
-        public EmployeeController(ILogger<EmployeeController> logger)
+        public EmployeeController(ILogger<EmployeeController> logger, IContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
 
@@ -22,23 +25,37 @@ namespace WebApplication1.Controllers
         
         public IEnumerable<Employee> Get()
         {
-            Context context = new Context();
-
-            var employee = context.Employees!;
-
+            var employee = _context.Employees!;
             return employee;
         }
 
         [HttpGet("{id}")]
         public Employee GetById(int id)
         {
-            Context context = new Context();
+            try
+            {
+                var employee = _context.Employees!.Where(e => e.EmployeeId == id).First();
+                return employee;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-            var employee = context.Employees!.Where(e => e.Id == id).First();
-            context.Employees!.Add(employee);
-            context.SaveChanges();
+        [HttpPost]
+        public void Post(Employee employee)
+        {
+            _context.Employees!.Add(employee);
+            _context.SaveChanges();
 
-            return employee;
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _context.Employees!.Remove(GetById(id));
+            _context.SaveChanges();
         }
     }
 }

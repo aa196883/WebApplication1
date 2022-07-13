@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -37,16 +35,9 @@ namespace WebApplication1.Controllers
             Context context = new Context();
 
             var employee = context.Employees!.Where(e => e.Id == id).First();
+            context.Employees!.Add(employee);
+            context.SaveChanges();
 
-            return employee;
-        }
-
-        [HttpPost]
-        public Employee Post(Employee employee)
-        {
-            string fullPath = @"C:\repo\testWrite.json";
-            
-            System.IO.File.AppendAllText(fullPath, JsonConvert.SerializeObject(employee));
             return employee;
         }
     }

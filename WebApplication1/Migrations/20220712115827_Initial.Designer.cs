@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1;
 
+using WebApplication1.Models;
+
 #nullable disable
 
 namespace WebApplication1.Migrations

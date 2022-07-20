@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Interface;
 using WebApplication1.Models;
 
@@ -20,43 +20,69 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
-
-        [HttpGet(Name = "GetEmployee")]
-        
-        public IEnumerable<Employee> Get()
+        [HttpGet]
+        public IEnumerable<Employee>? Get()
         {
-            var employee = _context.Employees!;
-            return employee;
+            IEnumerable<Employee> employees = _context.Employees!;
+            return employees;
         }
 
         [HttpGet("{id}")]
-        public Employee GetById(int id)
+        public async Task<Employee> GetById(int id)
         {
-            try
+            IEnumerable<Employee> employees = _context.Employees!.AsNoTracking().Where(e => e.EmployeeId == id);
+            if (employees.Any())
             {
-                var employee = _context.Employees!.Where(e => e.EmployeeId == id).First();
-                return employee;
+                return employees.First();
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            throw new Exception("no employee with ID = "+ id);
         }
 
         [HttpPost]
-        public void Post(Employee employee)
+        public async Task<int> Post(Employee employee)
         {
             _context.Employees!.Add(employee);
-            _context.SaveChanges();
-
+            await _context.SaveChangesAsync();
+            return 0;
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        async public Task<int> Delete(int id)
         {
-            _context.Employees!.Remove(GetById(id));
-            _context.SaveChanges();
+            Employee employee = await GetById(id);
+            _context.Employees!.Remove(employee);
+            await _context.SaveChangesAsync();
+            return 0;
         }
+
+        [HttpPut("{id}")]
+        async public Task<int> Put(int id, Employee newEmployee)
+        {
+            Employee oldEmployee = await GetById(id);
+            newEmployee.Id = oldEmployee.Id;
+            _context.Employees!.Update(newEmployee);
+            await _context.SaveChangesAsync();
+            return 0;
+        }
+
+        [HttpPatch("{id}")]
+        async public Task<int> Patch(int id, Employee newEmployeeInfos)
+        {
+            Employee employeeToPatch = await GetById(id);
+            if (newEmployeeInfos.EmployeeId == 0)
+            {
+                newEmployeeInfos.EmployeeId = employeeToPatch.EmployeeId;
+            }
+            if (newEmployeeInfos.Name == null || newEmployeeInfos.Name == "")
+            {
+                newEmployeeInfos.Name = employeeToPatch.Name;
+            }
+            newEmployeeInfos.Id = employeeToPatch.Id;
+            _context.Employees!.Update(newEmployeeInfos);
+            await _context.SaveChangesAsync();
+            return 0;
+        }
+
     }
 }
 

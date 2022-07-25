@@ -6,9 +6,10 @@ namespace WebApplication1.ServiceLayer.EmployeeService
     {
         IEnumerable<Employee> GetAllEmployee();
         Employee GetEmployee(int id);
-        void DeleteEmployee(Employee employee);
-        void UpdateEmployee(Employee employee);
-        void InsertEmployee(Employee employee);
+        Employee DeleteEmployee(int id);
+        Employee UpdateEmployee(int id, Employee employee);
+        Employee InsertEmployee(Employee employee);
+        Employee PatchEmployee(int id, Employee employee);
 
     }
 }

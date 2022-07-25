@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.DomainLayer;
 using WebApplication1.RepositoryLayer;
-using WebApplication1.RepositoryLayer.Repository;
+using WebApplication1.RepositoryLayer.Repository.RepoBase;
+using WebApplication1.RepositoryLayer.Repository.RepoCompany;
+using WebApplication1.RepositoryLayer.Repository.RepoEmployee;
 using WebApplication1.ServiceLayer.CompanyService;
 using WebApplication1.ServiceLayer.EmployeeService;
 
@@ -19,6 +21,7 @@ builder.Services.AddScoped<IContext, Context>();
 
 builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 builder.Services.AddScoped(typeof(ICompanyRepository<>), typeof(CompanyRepository<>));
+builder.Services.AddScoped(typeof(IEmployeeRepository<>), typeof(EmployeeRepository<>));
 builder.Services.AddTransient<ICompanyService, CompanyService>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1.DomainLayer;
 
-namespace WebApplication1.RepositoryLayer.Repository
+namespace WebApplication1.RepositoryLayer.Repository.RepoBase
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
@@ -11,7 +11,7 @@ namespace WebApplication1.RepositoryLayer.Repository
         public RepositoryBase(IContext context)
         {
             _context = context;
-            this.entities = _context.Set<T>();
+            entities = _context.Set<T>();
         }
 
         public void Delete(T entity)
@@ -22,7 +22,7 @@ namespace WebApplication1.RepositoryLayer.Repository
 
         public T Get(int id)
         {
-            return entities.AsNoTracking().SingleOrDefault(x => x.Id ==id);
+            return entities.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<T> GetAll()

@@ -1,5 +1,5 @@
 ﻿using WebApplication1.DomainLayer;
-using WebApplication1.RepositoryLayer.Repository;
+using WebApplication1.RepositoryLayer.Repository.RepoCompany;
 
 namespace WebApplication1.ServiceLayer.CompanyService
 {
@@ -26,7 +26,7 @@ namespace WebApplication1.ServiceLayer.CompanyService
 
         public Company GetCompany(string name)
         {
-            return _repository.Get(name);
+            return _repository.GetByName(name);
         }
 
         public void InsertCompany(Company company)

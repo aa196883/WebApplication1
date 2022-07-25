@@ -1,6 +1,6 @@
 ﻿using WebApplication1.DomainLayer;
 
-namespace WebApplication1.RepositoryLayer.Repository
+namespace WebApplication1.RepositoryLayer.Repository.RepoBase
 {
     public interface IRepositoryBase<T> where T : BaseEntity
     {

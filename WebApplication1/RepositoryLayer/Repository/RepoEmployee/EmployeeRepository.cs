@@ -12,7 +12,10 @@ namespace WebApplication1.RepositoryLayer.Repository.RepoEmployee
 
         public T GetByEmployeeId(int EmployeeId)
         {
-            return entities.AsNoTracking().SingleOrDefault(x => x.EmployeeId == EmployeeId);
+            var res = entities.AsNoTracking().SingleOrDefault(x => x.EmployeeId == EmployeeId);
+            if (res == null)
+                throw new InvalidOperationException($"no employee with employee id = {EmployeeId} foud");
+            return res;
         }
     }
 }

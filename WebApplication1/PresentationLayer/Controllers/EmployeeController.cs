@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebApplication1.DomainLayer;
-using WebApplication1.RepositoryLayer;
-using WebApplication1.ServiceLayer.CompanyService;
-using WebApplication1.ServiceLayer.EmployeeService;
+using WebApplication1.ServiceLayer.Queries.EmployeeQueries;
 
 namespace WebApplication1.Controllers
 {
@@ -13,17 +11,17 @@ namespace WebApplication1.Controllers
     [EnableCors]
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IMediator _mediator;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IMediator mediator)
         {
-            _employeeService = employeeService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public IActionResult GetAllEmployees()
         {
-            var res = _employeeService.GetAllEmployee();
+            var res = _mediator.Send(new GetEmployeesQuerry()).Result;
             if (res == null)
             {
                 return BadRequest("database is empty");
@@ -34,7 +32,7 @@ namespace WebApplication1.Controllers
         [HttpGet("{id}")]
         public IActionResult GetEmployee(int id)
         {
-            var res = _employeeService.GetEmployee(id);
+            var res = _mediator.Send(new GetEmployeeByIdQuerry(id)).Result;
             if (res == null)
             {
                 return BadRequest("no employee found with id =" + id);
@@ -45,30 +43,30 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Post(Employee employee)
         {
-            _employeeService.InsertEmployee(employee);
-            return Ok(employee);
+            var res = _mediator.Send(new AddEmployeeCommand(employee)).Result;
+            return Ok(res);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Employee employee = _employeeService.DeleteEmployee(id);
-            return Ok(employee);
+            var res = _mediator.Send(new DeleteEmployeeCommand(id)).Result;
+            return Ok(res);
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(Employee employee, int id)
         {
-            _employeeService.UpdateEmployee(id, employee);
-            return Ok(employee);
+            var res = _mediator.Send(new UpdateEmployeeCommand(employee, id)).Result;
+            return Ok(res);
         }
 
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, Employee employee){
-            _employeeService.PatchEmployee(id, employee);
-            return Ok(employee);
+            var res = _mediator.Send(new PatchEmployeeCommand(employee, id)).Result;
+            return Ok(res); ;
         }
 
-}
+    }
 }
 

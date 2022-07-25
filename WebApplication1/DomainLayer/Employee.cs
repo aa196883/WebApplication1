@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using WebApplication1.RepositoryLayer;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.DomainLayer
 {

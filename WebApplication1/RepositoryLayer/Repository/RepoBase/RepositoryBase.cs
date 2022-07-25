@@ -22,7 +22,10 @@ namespace WebApplication1.RepositoryLayer.Repository.RepoBase
 
         public T Get(int id)
         {
-            return entities.AsNoTracking().SingleOrDefault(x => x.Id == id);
+            var res = entities.AsNoTracking().SingleOrDefault(x => x.Id == id);
+            if (res == null)
+                throw new InvalidOperationException($"no object with id= {id} found");
+            return res;
         }
 
         public IEnumerable<T> GetAll()

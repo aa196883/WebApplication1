@@ -11,7 +11,10 @@ namespace WebApplication1.RepositoryLayer.Repository.RepoCompany
         }
         public T GetByName(string name)
         {
-            return entities.AsNoTracking().SingleOrDefault(x => x.Name == name);
+            var res = entities.AsNoTracking().SingleOrDefault(x => x.Name == name);
+            if(res == null)
+                throw new InvalidOperationException($"no company with name = {name} found");
+            return res;
         }
     }
 }

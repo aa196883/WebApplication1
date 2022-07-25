@@ -1,6 +1,4 @@
-﻿using WebApplication1.DomainLayer;
-
-namespace WebApplication1.DomainLayer
+﻿namespace WebApplication1.DomainLayer
 {
     public class Company : BaseEntity
     {

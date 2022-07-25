@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication1.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using WebApplication1.DomainLayer;
 
-namespace WebApplication1.Interface
+
+namespace WebApplication1.RepositoryLayer
 {
     public interface IContext
     {
@@ -12,7 +12,6 @@ namespace WebApplication1.Interface
         int SaveChanges();
 
         Task<int> SaveChangesAsync();
-
-        EntityEntry Entry(Object Entry);
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
     }
 }

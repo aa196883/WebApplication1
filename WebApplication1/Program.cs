@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Interface;
-using WebApplication1.Models;
+using WebApplication1.DomainLayer;
+using WebApplication1.RepositoryLayer;
+using WebApplication1.RepositoryLayer.Repository;
+using WebApplication1.ServiceLayer.CompanyService;
+using WebApplication1.ServiceLayer.EmployeeService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<DbContext, Context>();
 builder.Services.AddScoped<IContext, Context>();
+
+builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+builder.Services.AddScoped(typeof(ICompanyRepository<>), typeof(CompanyRepository<>));
+builder.Services.AddTransient<ICompanyService, CompanyService>();
+builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 

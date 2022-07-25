@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using WebApplication1.Interface;
+using WebApplication1.DomainLayer;
 
-namespace WebApplication1.Models
+namespace WebApplication1.RepositoryLayer
 {
     public class Context : DbContext, IContext
     {
@@ -24,10 +23,9 @@ namespace WebApplication1.Models
             return base.SaveChangesAsync();
         }
 
-        public override EntityEntry Entry(Object Entry)
+        public override DbSet<TEntity> Set<TEntity>()
         {
-            return base.Entry(Entry);
+            return base.Set<TEntity>();
         }
-
     }
 }

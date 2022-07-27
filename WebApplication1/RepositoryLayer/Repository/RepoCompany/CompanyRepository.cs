@@ -9,11 +9,9 @@ namespace WebApplication1.RepositoryLayer.Repository.RepoCompany
         public CompanyRepository(IContext context) : base(context)
         {
         }
-        public T GetByName(string name)
+        public T? GetByName(string name)
         {
             var res = entities.AsNoTracking().SingleOrDefault(x => x.Name == name);
-            if(res == null)
-                throw new InvalidOperationException($"no company with name = {name} found");
             return res;
         }
     }

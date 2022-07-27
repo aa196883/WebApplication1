@@ -22,10 +22,6 @@ namespace WebApplication1.Controllers
         public IActionResult GetAllEmployees()
         {
             var res = _mediator.Send(new GetEmployeesQuerry()).Result;
-            if (res == null)
-            {
-                return BadRequest("database is empty");
-            }
             return Ok(res);
         }
 
@@ -43,8 +39,11 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Post(Employee employee)
         {
-            var res = _mediator.Send(new AddEmployeeCommand(employee)).Result;
-            return Ok(res);
+            if (employee.IsValid()){
+                var res = _mediator.Send(new AddEmployeeCommand(employee)).Result;
+                return Ok(res);
+            }
+            return BadRequest("employee information is not valid");
         }
 
         [HttpDelete("{id}")]

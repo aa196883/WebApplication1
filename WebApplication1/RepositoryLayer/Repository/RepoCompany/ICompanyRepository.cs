@@ -5,6 +5,6 @@ namespace WebApplication1.RepositoryLayer.Repository.RepoCompany
 {
     public interface ICompanyRepository<T> : IRepositoryBase<T> where T : BaseEntity
     {
-        public T GetByName(string name);
+        public T? GetByName(string name);
     }
 }

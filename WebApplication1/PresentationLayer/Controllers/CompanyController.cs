@@ -22,32 +22,30 @@ namespace WebApplication1.Controllers
         public IActionResult GetAllCompanies()
         {
             var res = _mediator.Send(new GetCompaniesQuerry()).Result;
-            if (res == null)
-            {
-                return BadRequest("database is empty");
-            }
             return Ok(res);
         }
 
         [HttpGet("{name}")]
         public IActionResult GetCompany(string name)
         {
-            try
+            var res = _mediator.Send(new GetCompanyByNameQuerry(name)).Result;
+            if(res == null)
             {
-                var res = _mediator.Send(new GetCompanyByNameQuerry(name)).Result;
-                return Ok(res);
+                return BadRequest($"no employee with name = {name} found");
             }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(res);
         }
 
         [HttpPost]
         public IActionResult Post(Company company)
         {
-            var res = _mediator.Send(new AddCompanyCommand(company)).Result;
-            return Ok(res);
+            if (company.IsValid())
+            {
+                var res = _mediator.Send(new AddCompanyCommand(company)).Result;
+                return Ok(res);
+            }
+            return BadRequest("company information is not valid");
+            
         }
 
         [HttpDelete("{name}")]

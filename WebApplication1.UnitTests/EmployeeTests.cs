@@ -26,7 +26,7 @@ namespace WebApplication1.UnitTests
         [InlineData(null, 1,1)]
         [InlineData("test", 0, 1)]
         [InlineData("test", 1, 0)]
-        public void IsValid_EmployeeNameIsInvalid_ReturnsFalse(string name, int employeeId, int companyId)
+        public void IsValid_EmployeeInfoInvalid_ReturnsFalse(string name, int employeeId, int companyId)
         {
             // Arrange
             bool expected = false;

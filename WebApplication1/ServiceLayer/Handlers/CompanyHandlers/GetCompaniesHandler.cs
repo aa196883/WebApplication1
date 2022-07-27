@@ -5,7 +5,7 @@ using WebApplication1.ServiceLayer.Queries.CompanyQueries;
 
 namespace WebApplication1.ServiceLayer.Handlers.CompanyHandlers
 {
-    public class GetCompaniesHandler : IRequestHandler<GetCompaniesQuerry, IEnumerable<Company>>
+    public class GetCompaniesHandler : IRequestHandler<GetCompaniesQuery, IEnumerable<Company>>
     {
         private readonly ICompanyRepository<Company> _repository;
 
@@ -14,7 +14,7 @@ namespace WebApplication1.ServiceLayer.Handlers.CompanyHandlers
             _repository = repository;
         }
 
-        public Task<IEnumerable<Company>> Handle(GetCompaniesQuerry request, CancellationToken cancellationToken)
+        public Task<IEnumerable<Company>> Handle(GetCompaniesQuery request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_repository.GetAll());
         }

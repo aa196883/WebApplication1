@@ -18,7 +18,7 @@ namespace WebApplication1.ServiceLayer.Handlers.CompanyHandlers
 
         public Task<Company> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
         {
-            Company company = _mediator.Send(new GetCompanyByNameQuerry(request.name)).Result;
+            Company company = _mediator.Send(new GetCompanyByNameQuery(request.Name)).Result;
             _repository.Delete(company);
             return Task.FromResult(company);
         }

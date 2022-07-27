@@ -19,7 +19,7 @@ namespace WebApplication1.ServiceLayer.Handlers.CompanyHandlers
         public Task<Company> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
         {
             Company newCompany = request.company;
-            Company oldCompany = _mediator.Send(new GetCompanyByNameQuerry(request.name)).Result;
+            Company oldCompany = _mediator.Send(new GetCompanyByNameQuery(request.name)).Result;
             if (newCompany.Name == null)
             {
                 newCompany.Name = oldCompany.Name;

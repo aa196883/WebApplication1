@@ -21,14 +21,14 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult GetAllCompanies()
         {
-            var res = _mediator.Send(new GetCompaniesQuerry()).Result;
+            var res = _mediator.Send(new GetCompaniesQuery()).Result;
             return Ok(res);
         }
 
         [HttpGet("{name}")]
         public IActionResult GetCompany(string name)
         {
-            var res = _mediator.Send(new GetCompanyByNameQuerry(name)).Result;
+            var res = _mediator.Send(new GetCompanyByNameQuery(name)).Result;
             if(res == null)
             {
                 return BadRequest($"no employee with name = {name} found");
